@@ -1,4 +1,5 @@
 import os
+import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras import layers, models
 from tensorflow.keras.applications import MobileNetV2
@@ -6,7 +7,7 @@ from tensorflow.keras.applications import MobileNetV2
 # 1. Cấu hình thông số
 IMAGE_SIZE = (224, 224)
 BATCH_SIZE = 32
-EPOCHS = 10
+EPOCHS = 30
 
 # Đường dẫn dữ liệu (tương đối theo thư mục hiện tại)
 train_dir = r"D:\my repo\training mobilenetv2\Training-MobileNetV2-to-predict\dataset\train"
@@ -61,5 +62,43 @@ print("Đang bắt đầu huấn luyện mô hình...")
 history = model.fit(train_dataset, validation_data=val_dataset, epochs=EPOCHS)
 
 # 6. Lưu mô hình thành 1 file duy nhất
-model.save("my_model.keras")
-print("Đã huấn luyện xong và lưu mô hình tại: my_model.keras")
+model.save("MS_MobileNetV2.keras")
+print("Đã huấn luyện xong và lưu mô hình tại: MS_MobileNetV2.keras")
+
+# ==========================================
+# 7. VẼ VÀ LƯU BIỂU ĐỒ ĐỘ CHÍNH XÁC / LOSS
+# ==========================================
+acc = history.history["accuracy"]
+val_acc = history.history["val_accuracy"]
+
+loss = history.history["loss"]
+val_loss = history.history["val_loss"]
+
+epochs_range = range(EPOCHS)
+
+plt.figure(figsize=(12, 5))
+
+# Biểu đồ Độ chính xác (Accuracy)
+plt.subplot(1, 2, 1)
+plt.plot(epochs_range, acc, label="Training Accuracy")
+plt.plot(epochs_range, val_acc, label="Validation Accuracy")
+plt.legend(loc="lower right")
+plt.title("Do chinh xac (Accuracy) qua cac Epoch")
+plt.xlabel("Epoch")
+plt.ylabel("Accuracy")
+
+# Biểu đồ Độ mất mát (Loss)
+plt.subplot(1, 2, 2)
+plt.plot(epochs_range, loss, label="Training Loss")
+plt.plot(epochs_range, val_loss, label="Validation Loss")
+plt.legend(loc="upper right")
+plt.title("Do mat mat (Loss) qua cac Epoch")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+
+# Lưu biểu đồ thành file ảnh
+plt.savefig("training_plot.png", dpi=300)
+print("Đã lưu biểu đồ huấn luyện tại: training_plot.png")
+
+# Hiển thị cửa sổ biểu đồ (nếu chạy môi trường hỗ trợ giao diện cửa sổ)
+plt.show()

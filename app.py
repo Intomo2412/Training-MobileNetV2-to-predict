@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image
 
 # 1. Tải lại mô hình đã lưu
-model = tf.keras.models.load_model("my_model.keras")
+model = tf.keras.models.load_model("MS_MobileNetV2.keras")
 
 # ⚠️ QUAN TRỌNG: Danh sách nhãn phải ĐÚNG THỨ TỰ với lúc train (thứ tự chữ cái của tên thư mục)
 # Bạn có thể in ra class_names ở file train_model.py để điền chính xác vào đây:
@@ -49,4 +49,4 @@ demo = gr.Interface(
 
 if __name__ == "__main__":
   # Khởi chạy giao diện web cục bộ
-  demo.launch(server_name="127.0.0.1", server_port=7860)
+  demo.launch(share=True)
